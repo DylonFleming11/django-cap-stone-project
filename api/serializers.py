@@ -2,7 +2,13 @@ from django.contrib.auth import get_user_model
 from rest_framework import serializers
 
 from .models.mango import Mango
+from .models.player import Player
 from .models.user import User
+
+class PlayerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Player
+        fields = ('id', 'name', 'position', 'team', 'owner')
 
 class MangoSerializer(serializers.ModelSerializer):
     class Meta:

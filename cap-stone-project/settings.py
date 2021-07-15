@@ -26,6 +26,9 @@ if os.getenv('ENV') == 'development':
   DB = {
       'ENGINE': 'django.db.backends.postgresql',
       'NAME': DB_NAME,
+      # WINDOW only
+      'USER': 'postgres',
+      'PASSWORD': '3393'
   }
   # Set debug to true
   DEBUG = True
@@ -48,9 +51,6 @@ else:
 # or production environment
 DATABASES = {
     'default': DB,
-    # WINDOW only
-    'USER': 'postgres',
-    'PASSWORD': '3393'
 }
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -92,7 +92,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'django-cap-stone-project.urls'
+ROOT_URLCONF = 'cap-stone-project.urls'
 
 TEMPLATES = [
     {
@@ -110,7 +110,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'django-cap-stone-project.wsgi.application'
+WSGI_APPLICATION = 'cap-stone-project.wsgi.application'
 
 # Django Rest Framework
 #
