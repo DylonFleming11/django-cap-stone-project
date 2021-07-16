@@ -4,11 +4,35 @@ from rest_framework import serializers
 from .models.mango import Mango
 from .models.player import Player
 from .models.user import User
+from .models.gamelog import GameLog
+
+class GameLogPlayerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = GameLog
+        fields = '__all__'
+
+class GameLogSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = GameLog
+        fields = '__all__'
+
+class GameLogPlusSerializer(serializers.ModelSerializer):
+    player = GameLogPlayerSerializer(many=True)
+    class Meta:
+        model = GameLog
+        fields = '__all__'
 
 class PlayerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Player
         fields = ('id', 'name', 'position', 'team', 'owner')
+
+class PlayerPlusSerializer(serializers.ModelSerializer):
+    gamelog = serializers.StringRelatedField()
+    class Meta:
+        model = Player
+        fields = '__all__'
+
 
 class MangoSerializer(serializers.ModelSerializer):
     class Meta:
