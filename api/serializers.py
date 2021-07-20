@@ -6,29 +6,30 @@ from .models.player import Player
 from .models.user import User
 from .models.gamelog import GameLog
 
-class GameLogPlayerSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = GameLog
-        fields = '__all__'
+# class GameLogPlayerSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = GameLog
+#         fields = '__all__'
 
 class GameLogSerializer(serializers.ModelSerializer):
     class Meta:
         model = GameLog
         fields = '__all__'
 
-class GameLogPlusSerializer(serializers.ModelSerializer):
-    player = GameLogPlayerSerializer(many=True)
-    class Meta:
-        model = GameLog
-        fields = '__all__'
 
 class PlayerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Player
-        fields = ('id', 'name', 'position', 'team', 'owner')
+        fields = '__all__'
+
+class GameLogPlusSerializer(serializers.ModelSerializer):
+  player = PlayerSerializer(many=True)
+  class Meta:
+    model = GameLog
+    fields = '__all__'
 
 class PlayerPlusSerializer(serializers.ModelSerializer):
-    gamelog = serializers.StringRelatedField()
+    gamelogs = GameLogSerializer(many=True)
     class Meta:
         model = Player
         fields = '__all__'

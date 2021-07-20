@@ -10,7 +10,7 @@ class GameLog(models.Model):
     player = models.ForeignKey(
         Player,
         on_delete=models.CASCADE,
-        related_name='Player'
+        related_name='gamelogs'
     )
 
     def __str__(self):

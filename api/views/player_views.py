@@ -5,7 +5,7 @@ from rest_framework import generics, status
 from django.shortcuts import get_object_or_404
 
 from ..models.player import Player
-from ..serializers import PlayerSerializer
+from ..serializers import PlayerSerializer, PlayerPlusSerializer
 
 
 class Players(generics.ListCreateAPIView):
@@ -34,7 +34,7 @@ class PlayerDetail(generics.RetrieveUpdateDestroyAPIView):
         if not request.user.id == player.owner.id:
             raise PermissionDenied('Unauthorized, you did not make this player')
 
-        data = PlayerSerializer(player).data
+        data = PlayerPlusSerializer(player).data
         return Response({ 'player': data })
 
     def delete(self, request, pk):
@@ -47,12 +47,13 @@ class PlayerDetail(generics.RetrieveUpdateDestroyAPIView):
 
     def partial_update(self, request, pk):
         """Update Request"""
+        print('LOOOOOOK HEEERRREEE', request.data)
         player = get_object_or_404(Player, pk=pk)
         if not request.user.id == player.owner.id:
             raise PermissionDenied('Unauthorized, you did not make this player')
         request.data['player']['owner'] = request.user.id
-        data = PlayerSerializer(player, data=request.data['player'], partial=True)
-        if data.id_valid():
-            data.save()
+        ms = PlayerSerializer(player, data=request.data['player'], partial=True)
+        if ms.is_valid():
+            ms.save()
             return Response()
-        return Response(data.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response(ms.errors, status=status.HTTP_400_BAD_REQUEST)
